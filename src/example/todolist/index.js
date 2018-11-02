@@ -1,12 +1,19 @@
 import React, { Component } from 'react'
-import style from './css/base.css'
-console.log(style)
+import base from './css/base.css'
+import index from './css/index.css'
+
+import TodoHeader from './components/todo-header'
+import TodoContent from './components/todo-content'
+import TodoFooter from './components/todo-footer'
+
 export default class TodoList extends Component {
     render() {
         return (
-            <div>
-                <p style={style.test}>hello</p>
-            </div>
+            <section className={index.todoapp}>
+                <TodoHeader></TodoHeader>
+                <TodoContent></TodoContent>
+                <TodoFooter></TodoFooter>
+            </section>
         )
     }
 }
