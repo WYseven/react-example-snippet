@@ -9,16 +9,20 @@ export default class App extends React.Component {
     return (
       <BrowserRouter>
         <React.Fragment>
-          {
-            config.map((item) => {
-              return (
-                <NavLink
-                  key={item.path} 
-                  to={item.path}
-                >{item.path}</NavLink>
-              )
-            })
-          }
+          <ul>
+            {
+              config.map((item) => {
+                return (
+                  <li key={item.path}>
+                    <NavLink
+                      to={item.path}
+                    >{item.path}</NavLink>
+                  </li>
+                )
+              })
+            }
+          </ul>
+          
           <RouteConfig></RouteConfig>
         </React.Fragment>
       </BrowserRouter>
