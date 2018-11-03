@@ -101,6 +101,15 @@ export default class TodoList extends Component {
         })
     }
 
+    // 删除
+    destroyHandle = (id) => {
+        let list = [...this.state.list];
+        list = list.filter((item) => item.id !== id)
+        this.setState({
+            list
+        })
+    }
+
     render() {
 
         let {list} = this.state;
@@ -108,18 +117,20 @@ export default class TodoList extends Component {
 
         return (
             <section className={index.todoapp}>
+                <TodoHeader
+                    getHeaderTitle={this.getHeaderTitle}
+                ></TodoHeader>
                 {
-                    hasItem && 
-                    <TodoHeader 
-                        getHeaderTitle={this.getHeaderTitle}
-                    ></TodoHeader>
+                    hasItem &&
+                    <TodoContent
+                        list={list}
+                        changeCheckedAll={this.changeCheckedAll}
+                        changeCheckedSingle={this.changeCheckedSingle}
+                        changeTilteSingle={this.changeTilteSingle}
+                        destroyHandle={this.destroyHandle}
+                    ></TodoContent>
                 }
-                <TodoContent
-                    list={list}
-                    changeCheckedAll={this.changeCheckedAll}
-                    changeCheckedSingle={this.changeCheckedSingle}
-                    changeTilteSingle={this.changeTilteSingle}
-                ></TodoContent>
+                
                 {hasItem && <TodoFooter></TodoFooter>}
             </section>
         )

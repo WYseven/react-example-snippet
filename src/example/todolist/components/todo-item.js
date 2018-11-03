@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent,Component } from 'react'
 import classnames from 'classnames'
 import PropTypes from 'prop-types'
 import index from '../css/index.css'
@@ -7,7 +7,8 @@ export default class TodoItem extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      editId: this.props.isEditId
+      editId: this.props.isEditId,
+      title: this.props.title
     }
     this.editInput = React.createRef();
   }
@@ -48,14 +49,46 @@ export default class TodoItem extends Component {
     };
   }
 
+  // 编辑完成
+  editDone = () => {
+    this.setState({
+      editId: ''
+    });
+
+    // 通知给父级
+    if (this.props.changeTilteSingle) {
+      this.props.changeTilteSingle(this.props.id, this.state.title)
+    }
+
+  }
+
+  // 键盘触发
+  keyUpEditDone = (e) => {
+    if (e.keyCode === 13) {
+      this.editDone()
+    }
+
+    if (e.keyCode === 27) {
+      this.setState({
+        editId: '',
+        title: this.props.title
+      })
+    }
+  }
+
+  // 删除
+  destroyHandle = () => {
+    if (this.props.destroyHandle){
+      this.props.destroyHandle(this.props.id)
+    }
+  }
+
   render() {
     let {
       id,
       title,
       checked
     } = this.props;
-
-    console.log(this.state)
     
     return (
       <li className={classnames({
@@ -74,11 +107,22 @@ export default class TodoItem extends Component {
             }}
           />
           <label onDoubleClick={this.editHandle}>{title}</label>
-          <button className={index.destroy}></button>
+          <button 
+            className={index.destroy} 
+            onClick={this.destroyHandle}
+          ></button>
         </div>
         <input 
           ref={this.editInput} 
-          className={index.edit} 
+          className={index.edit}
+          value={this.state.title}
+          onChange={(e)=>{
+            this.setState({
+              title:e.target.value 
+            })
+          }}
+          onBlur={this.editDone}
+          onKeyUp={this.keyUpEditDone}
         />
       </li>
     )

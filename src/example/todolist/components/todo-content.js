@@ -61,6 +61,7 @@ export default class TodoContent extends Component {
                 editingById={this.editingById}
                 changeCheckedSingle={this.props.changeCheckedSingle}
                 changeTilteSingle={this.props.changeTilteSingle}
+                destroyHandle={this.props.destroyHandle}
                 />
             })
           }
