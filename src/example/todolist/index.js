@@ -6,29 +6,21 @@ import TodoHeader from './components/todo-header'
 import TodoContent from './components/todo-content'
 import TodoFooter from './components/todo-footer'
 
-let data = [
-    {
-        id: 1,
-        title: 'hello'
-    },
-    {
-        id: 2,
-        title: 'hi'
-    }
-]
+import gethash from '../utils/getHash'
 
 export default class TodoList extends Component {
-
+    
     constructor(props) {
         super(props);
         this.state = {
-            list:[]
+            list:[],
+            hash: 'all'
         };
     }
 
     componentDidMount() {
         // 获取数据
-        let list = JSON.parse(localStorage.getItem('list')) || data;
+        let list = JSON.parse(localStorage.getItem('list')) || [];
 
         // 设置是否选中的初始状态
         list.forEach((item) => {
@@ -41,6 +33,21 @@ export default class TodoList extends Component {
             list: list
         })
 
+        
+        // 绑定监听hash的值
+        gethash((hash) => {
+            this.setState({
+                hash
+            })
+        });
+
+    }
+
+    // 更新之后存入 localStorage
+
+    componentDidUpdate(){
+        // 更新之后存入localStorage
+        localStorage.setItem('list', JSON.stringify(this.state.list))
     }
 
     // 拿到header组件输入的title
@@ -112,8 +119,12 @@ export default class TodoList extends Component {
 
     render() {
 
-        let {list} = this.state;
+        let {list,hash} = this.state;
         let hasItem = !!list.length;
+        let unCheckedLen = list.length - list.filter((item) => item.checked).length;
+
+        // 过滤数据
+        list = gethash.filterHash[hash](list)
 
         return (
             <section className={index.todoapp}>
@@ -131,7 +142,7 @@ export default class TodoList extends Component {
                     ></TodoContent>
                 }
                 
-                {hasItem && <TodoFooter></TodoFooter>}
+                {hasItem && <TodoFooter unCheckedLen={unCheckedLen}></TodoFooter>}
             </section>
         )
     }
