@@ -1,32 +1,16 @@
 import React from 'react'
-import { BrowserRouter,NavLink } from 'react-router-dom'
+import CustomeTitle from './components/title'
 
-import RouteConfig from './example/'
-import config from './example/config'
+let t = 'hello,react3'
 
 export default class App extends React.Component {
   render(){
     return (
-      <BrowserRouter>
-        <React.Fragment>
-          <ul>
-            {
-              config.map((item) => {
-                return (
-                  <li key={item.path}>
-                    <NavLink
-                      to={item.path}
-                    >{item.path}</NavLink>
-                  </li>
-                )
-              })
-            }
-          </ul>
-          
-          <RouteConfig></RouteConfig>
-        </React.Fragment>
-      </BrowserRouter>
-      
-    )
+      <div>
+        <CustomeTitle title="hello,react1"></CustomeTitle>
+        <CustomeTitle title={"hello,react2"}></CustomeTitle>
+        <CustomeTitle title={t}></CustomeTitle>
+      </div>
+     )
   }
 }
