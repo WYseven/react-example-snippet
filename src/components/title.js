@@ -36,7 +36,10 @@ export default class CustomeTitle extends React.Component {
   }
   
   render() {
-
+    console.log(this.props.children)
+    if (typeof this.props.children === 'function'){
+      console.log(this.props.children());
+    }
     return (
       <React.Fragment>
         <button onClick={this.changeHandle}>
